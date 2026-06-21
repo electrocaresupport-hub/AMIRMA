@@ -69,18 +69,39 @@ function sendMessage(){
 
 function aiReply(msg){
   msg = msg.toLowerCase().trim();
-
   saveMemory(msg);
 
-  // greetings
-  if(/hello|hi|hey/.test(msg)){
-    return "Hello Sir, AMIRMA AI is active.";
+  // flexible intent matching
+  const openGoogle = msg.includes("google") || msg.includes("open google");
+  const openYoutube = msg.includes("youtube") || msg.includes("open youtube");
+  const timeAsk = msg.includes("time");
+  const hello = /hello|hi|hey|namaste/.test(msg);
+
+  if(hello){
+    return "Hello Sir, I am AMIRMA Prime AI.";
   }
 
-  // time
-  if(msg.includes("time")){
-    return new Date().toLocaleTimeString();
+  if(timeAsk){
+    return "Current time is " + new Date().toLocaleTimeString();
   }
+
+  if(openGoogle){
+    window.open("https://google.com");
+    return "Opening Google...";
+  }
+
+  if(openYoutube){
+    window.open("https://youtube.com");
+    return "Opening YouTube...";
+  }
+
+  if(msg.includes("who are you")){
+    return "I am AMIRMA Prime AI Operating System with memory system.";
+  }
+
+  // SMART FALLBACK (IMPORTANT)
+  return smartThink(msg);
+}
 
   // weather
   if(msg.includes("weather")){
@@ -202,4 +223,32 @@ function smartThink(msg){
 
 function showMemory(){
   console.log(memory);
+}
+
+function smartThink(msg){
+
+  msg = msg.toLowerCase().trim();
+
+  // too short input
+  if(msg.length < 3){
+    return "Please ask a clear question.";
+  }
+
+  // WHY questions
+  if(msg.includes("why")){
+    return "This is a deep question. I am analyzing possible reasons...";
+  }
+
+  // HOW questions
+  if(msg.includes("how")){
+    return "I need more details to explain properly.";
+  }
+
+  // WHAT questions
+  if(msg.includes("what")){
+    return "I understand your question. Processing meaning...";
+  }
+
+  // general unknown input
+  return "I understand your input. AMIRMA is learning from this conversation.";
 }
