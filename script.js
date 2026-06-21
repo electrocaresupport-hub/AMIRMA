@@ -1,3 +1,12 @@
+let memory = JSON.parse(localStorage.getItem("amirma_memory")) || [];
+function saveMemory(text){
+  memory.push({
+    text,
+    time: Date.now()
+  });
+
+  localStorage.setItem("amirma_memory", JSON.stringify(memory));
+}
 // =====================
 // AMIRMA PRIME CORE
 // =====================
