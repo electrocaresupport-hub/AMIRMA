@@ -1,52 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AMIRMA AI</title>
-<link rel="stylesheet" href="style.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AMIRMA PRIME - AI OS</title>
+
+<link rel="stylesheet" href="style.css"/>
 </head>
 
 <body>
 
-<div class="header">
-<h1>AMIRMA</h1>
-<div id="clock"></div>
+<!-- PARTICLE CANVAS -->
+<canvas id="particleCanvas"></canvas>
+
+<!-- BOOT SCREEN -->
+<div id="bootScreen">
+  <div class="boot-title">AMIRMA PRIME</div>
+  <div class="boot-lines">
+    <p>Initializing Systems...</p>
+    <p>Neural Network Online...</p>
+    <p>Security Layer Active...</p>
+    <p>Voice Systems Ready...</p>
+    <p>AI Core Connected...</p>
+    <p class="boot-highlight">Welcome Sir</p>
+  </div>
 </div>
 
-<div class="container">
+<!-- MAIN OS -->
+<div id="app">
 
-<div class="panel">
-<h2>Weather</h2>
-<p>Agartala, India</p>
-</div>
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <div class="logo">AMIRMA PRIME</div>
+    <div class="clock">
+      <span id="time">00:00:00</span>
+      <span id="date">Loading...</span>
+    </div>
+  </header>
 
-<div class="ai-face">
-<div class="circle"></div>
-<h2>Hello Sir</h2>
-</div>
+  <!-- MAIN GRID -->
+  <main class="grid">
 
-<div class="panel">
-<h2>System Status</h2>
-<p>CPU: Active</p>
-<p>RAM: Monitoring</p>
-<p>Network: Connected</p>
-</div>
+    <!-- LEFT PANEL -->
+    <section class="panel">
 
-</div>
+      <div class="card">
+        <h3>AI ASSISTANT</h3>
+        <p id="aiStatus">Hello Sir, How may I assist you today?</p>
+        <div class="status-row">
+          <span>Listening: <b id="listening">OFF</b></span>
+          <span>Speaking: <b id="speaking">OFF</b></span>
+        </div>
+      </div>
 
-<div class="apps">
-<h2>Applications</h2>
+      <div class="card">
+        <h3>SYSTEM MONITOR</h3>
+        <p>CPU <span id="cpu">0%</span></p>
+        <p>RAM <span id="ram">0%</span></p>
+        <p>Storage <span id="storage">0%</span></p>
+        <p>Network <span id="network">0%</span></p>
+      </div>
 
-<button onclick="window.open('https://youtube.com')">YouTube</button>
+      <div class="card">
+        <h3>AI AGENTS</h3>
+        <ul>
+          <li>Research Agent - Active</li>
+          <li>Content Agent - Standby</li>
+          <li>Productivity Agent - Active</li>
+          <li>Automation Agent - Active</li>
+          <li>Learning Agent - Online</li>
+        </ul>
+      </div>
 
-<button onclick="window.open('https://google.com')">Google</button>
+    </section>
 
-<button onclick="window.open('https://chatgpt.com')">ChatGPT</button>
+    <!-- CENTER AI CORE -->
+    <section class="center">
 
+      <div class="ai-core">
+        <div class="ring ring1"></div>
+        <div class="ring ring2"></div>
+        <div class="ring ring3"></div>
+        <div class="core-glow"></div>
+      </div>
+
+      <div class="voice-controls">
+        <button onclick="startVoice()">🎤 Activate Voice</button>
+        <button onclick="stopVoice()">⛔ Stop Voice</button>
+      </div>
+
+    </section>
+
+    <!-- RIGHT PANEL -->
+    <section class="panel">
+
+      <div class="card">
+        <h3>WEATHER</h3>
+        <p id="weather">Loading weather...</p>
+      </div>
+
+      <div class="card">
+        <h3>APPLICATIONS</h3>
+        <div class="apps">
+          <button onclick="openApp('https://google.com')">Google</button>
+          <button onclick="openApp('https://youtube.com')">YouTube</button>
+          <button onclick="openApp('https://chat.openai.com')">ChatGPT</button>
+          <button onclick="openApp('https://github.com')">GitHub</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>AI CHAT</h3>
+        <div id="chatBox"></div>
+        <div class="chat-input">
+          <input id="userInput" placeholder="Type command..." />
+          <button onclick="sendMessage()">Send</button>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
 </div>
 
 <script src="script.js"></script>
-
 </body>
 </html>
