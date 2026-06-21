@@ -34,59 +34,32 @@ function smartThink(msg){
 
 async function aiReply(msg){
 
-  msg = msg.toLowerCase().trim();
+  msg = msg.trim();
 
   saveMemory(msg);
 
-  // Greetings
-  if(/hello|hi|hey|namaste/.test(msg)){
-    return "Hello Sir. AMIRMA Prime is online and ready.";
-  }
-
-  // Time
-  if(msg.includes("time")){
-    return "Current time is " + new Date().toLocaleTimeString();
-  }
-
-  // Date
-  if(msg.includes("date")){
-    return "Today is " + new Date().toDateString();
-  }
-
-  // Google
-  if(msg.includes("google")){
+  // Fast local commands
+  if(msg.toLowerCase().includes("open google")){
     window.open("https://google.com","_blank");
     return "Opening Google.";
   }
 
-  // YouTube
-  if(msg.includes("youtube")){
+  if(msg.toLowerCase().includes("youtube")){
     window.open("https://youtube.com","_blank");
     return "Opening YouTube.";
   }
 
-  // GitHub
-  if(msg.includes("github")){
-    window.open("https://github.com","_blank");
-    return "Opening GitHub.";
+  if(msg.toLowerCase().includes("time")){
+    return "Current time is " + new Date().toLocaleTimeString();
   }
 
-  // ChatGPT
-  if(msg.includes("chatgpt")){
-    window.open("https://chatgpt.com","_blank");
-    return "Opening ChatGPT.";
+  try{
+    return await askAI(msg);
+  }catch(error){
+    console.error(error);
+    return "Gemini connection failed.";
   }
-
-  // Weather
-  if(msg.includes("weather")){
-    return document.getElementById("weather")?.innerText || "Weather module active.";
-  }
-
-  // Identity
-  if(msg.includes("who are you")){
-    return "I am AMIRMA Prime, your AI Operating System assistant.";
-  }
-
+}
   return smartThink(msg);
 }
 
@@ -135,28 +108,30 @@ window.addEventListener("load", () => {
 });
 async function askAI(question){
 
-  const response = await fetch("https://api.openai.com/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": "AQ.Ab8RN6LyB8uMuBpyIIKt6gMZS6pL_GOuPwC9lcIDOmpOxvnsLg"
-    },
-    body: JSON.stringify({
-      model: "gpt-4o-mini",
-      messages: [
-        {
-          role: "system",
-          content: "You are AMIRMA Prime, a futuristic AI operating system."
-        },
-        {
-          role: "user",
-          content: question
-        }
-      ]
-    })
-  });
+  const API_KEY = "AQ.Ab8RN6LyB8uMuBpyIIKt6gMZS6pL_GOuPwC9lcIDOmpOxvnsLg";
+
+  const response = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        contents: [
+          {
+            parts: [
+              {
+                text: `You are AMIRMA Prime, a futuristic AI Operating System assistant. User: ${question}`
+              }
+            ]
+          }
+        ]
+      })
+    }
+  );
 
   const data = await response.json();
 
-  return data.choices[0].message.content;
+  return data.candidates[0].content.parts[0].text;
 }
