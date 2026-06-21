@@ -68,17 +68,33 @@ function sendMessage(){
 }
 
 function aiReply(msg){
-  msg = msg.toLowerCase();
+  msg = msg.toLowerCase().trim();
 
-  if(msg.includes("time")) return new Date().toLocaleTimeString();
-  if(msg.includes("hello")) return "Hello Sir, AMIRMA Prime Online.";
-  if(msg.includes("weather")) return "Weather module active above.";
-  if(msg.includes("open google")) {window.open("https://google.com"); return "Opening Google";}
-  if(msg.includes("youtube")) {window.open("https://youtube.com"); return "Opening YouTube";}
+  saveMemory(msg);
 
-  return "Command not recognized. AI learning...";
+  // greetings
+  if(/hello|hi|hey/.test(msg)){
+    return "Hello Sir, AMIRMA AI is active.";
+  }
+
+  // time
+  if(msg.includes("time")){
+    return new Date().toLocaleTimeString();
+  }
+
+  // weather
+  if(msg.includes("weather")){
+    return "Weather system active on dashboard.";
+  }
+
+  // identity
+  if(msg.includes("who are you")){
+    return "I am AMIRMA Prime AI Operating System.";
+  }
+
+  // fallback brain
+  return smartThink(msg);
 }
-
 // LOAD CHAT
 document.getElementById("chatBox").innerHTML = localStorage.getItem("chat") || "";
 
@@ -166,3 +182,24 @@ function draw(){
 }
 
 draw();
+
+function smartThink(msg){
+
+  if(msg.includes("why")){
+    return "AMIRMA is analyzing reasons behind this question...";
+  }
+
+  if(msg.includes("how")){
+    return "Please provide more detail so I can guide properly.";
+  }
+
+  if(msg.split(" ").length < 2){
+    return "Ask a complete question for better answer.";
+  }
+
+  return "I understand your input. AMIRMA is learning continuously.";
+}
+
+function showMemory(){
+  console.log(memory);
+}
