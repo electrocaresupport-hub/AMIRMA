@@ -67,38 +67,29 @@ function sendMessage(){
   localStorage.setItem("chat", chatBox.innerHTML);
 }
 
-function aiReply(msg){
-  msg = msg.toLowerCase().trim();
+async function aiReply(msg){
+
   saveMemory(msg);
 
-  // flexible intent matching
-  const openGoogle = msg.includes("google") || msg.includes("open google");
-  const openYoutube = msg.includes("youtube") || msg.includes("open youtube");
-  const timeAsk = msg.includes("time");
-  const hello = /hello|hi|hey|namaste/.test(msg);
-
-  if(hello){
-    return "Hello Sir, I am AMIRMA Prime AI.";
+  // local quick commands
+  if(msg.includes("time")){
+    return new Date().toLocaleTimeString();
   }
 
-  if(timeAsk){
-    return "Current time is " + new Date().toLocaleTimeString();
-  }
-
-  if(openGoogle){
+  if(msg.includes("open google")){
     window.open("https://google.com");
     return "Opening Google...";
   }
 
-  if(openYoutube){
-    window.open("https://youtube.com");
-    return "Opening YouTube...";
+  // REAL AI BRAIN (IMPORTANT)
+  try {
+    const answer = await askAI(msg);
+    return answer;
+  } catch (e) {
+    return "AI brain offline. Please check API connection.";
   }
-
-  if(msg.includes("who are you")){
-    return "I am AMIRMA Prime AI Operating System with memory system.";
-  }
-
+}
+  
   // SMART FALLBACK (IMPORTANT)
   return smartThink(msg);
 }
@@ -251,4 +242,41 @@ function smartThink(msg){
 
   // general unknown input
   return "I understand your input. AMIRMA is learning from this conversation.";
+}
+
+async function askAI(question){
+
+  const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer AQ.Ab8RN6LEwAGWORW5JUa1U4EZ528xSXkLrsEU4VR3owKtuu-i-A"
+    },
+    body: JSON.stringify({
+      model: "gpt-4o-mini",
+      messages: [
+        { role: "system", content: "You are AMIRMA AI, a futuristic OS assistant." },
+        { role: "user", content: question }
+      ]
+    })
+  });
+
+  const data = await response.json();
+  return data.choices[0].message.content;
+}
+async function send(){
+  const input = document.getElementById("input");
+  const box = document.getElementById("chatBox");
+
+  if(!input.value) return;
+
+  const msg = input.value;
+
+  box.innerHTML += `<div>You: ${msg}</div>`;
+
+  const reply = await aiReply(msg);
+
+  box.innerHTML += `<div>AMIRMA: ${reply}</div>`;
+
+  input.value = "";
 }
