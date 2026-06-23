@@ -1,128 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>AMIRMA PRIME - AI OS</title>
-
-<link rel="stylesheet" href="style.css"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AMIRMA | ULTIMATE EDITION</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
+    <canvas id="particle-canvas"></canvas>
 
-<!-- PARTICLE CANVAS -->
-<canvas id="particleCanvas"></canvas>
-
-<!-- BOOT SCREEN -->
-<div id="bootScreen">
-  <div class="boot-title">AMIRMA PRIME</div>
-  <div class="boot-lines">
-    <p>Initializing Systems...</p>
-    <p>Neural Network Online...</p>
-    <p>Security Layer Active...</p>
-    <p>Voice Systems Ready...</p>
-    <p>AI Core Connected...</p>
-    <p class="boot-highlight">Welcome Sir</p>
-  </div>
-</div>
-
-<!-- MAIN OS -->
-<div id="app">
-
-  <!-- TOP BAR -->
-  <header class="topbar">
-    <div class="logo">AMIRMA PRIME</div>
-    <div class="clock">
-      <span id="time">00:00:00</span>
-      <span id="date">Loading...</span>
+    <div id="boot-screen" class="boot-screen">
+        <div class="boot-loader">
+            <h1 class="glow-text">AMIRMA</h1>
+            <div class="boot-terminal" id="boot-terminal"></div>
+            <div class="boot-progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+        </div>
     </div>
-  </header>
 
-  <!-- MAIN GRID -->
-  <main class="grid">
+    <div id="desktop-env" class="desktop-env hidden">
+        <header class="top-bar">
+            <div class="system-status-left">
+                <span class="status-node pulse-glow"></span>
+                <span class="brand-title">AMIRMA // CORE v1.0</span>
+            </div>
+            <div class="system-status-right">
+                <span id="sys-date">--/--/----</span>
+                <span id="sys-time">00:00:00</span>
+            </div>
+        </header>
 
-    <!-- LEFT PANEL -->
-    <section class="panel">
+        <main class="desktop-surface">
+            <div class="desktop-shortcuts">
+                <button class="shortcut-btn" onclick="openApp('mission-control')">
+                    <div class="shortcut-icon">🎯</div>
+                    <span class="shortcut-label">Mission Control</span>
+                </button>
+                <button class="shortcut-btn" onclick="openApp('chat-center')">
+                    <div class="shortcut-icon">🧠</div>
+                    <span class="shortcut-label">AI Chat Center</span>
+                </button>
+                <button class="shortcut-btn" onclick="openApp('employee-center')">
+                    <div class="shortcut-icon">💼</div>
+                    <span class="shortcut-label">AI Workforce</span>
+                </button>
+                <button class="shortcut-btn" onclick="openApp('sys-monitor')">
+                    <div class="shortcut-icon">📊</div>
+                    <span class="shortcut-label">System Monitor</span>
+                </button>
+            </div>
 
-      <div class="card">
-        <h3>AI ASSISTANT</h3>
-        <p id="aiStatus">Hello Sir, How may I assist you today?</p>
-        <div class="status-row">
-          <span>Listening: <b id="listening">OFF</b></span>
-          <span>Speaking: <b id="speaking">OFF</b></span>
+            <div id="window-container"></div>
+
+            <div class="ai-core-container" id="ai-core-trigger">
+                <div class="hologram-ring ring-outer"></div>
+                <div class="hologram-ring ring-mid"></div>
+                <div class="hologram-ring ring-inner"></div>
+                <div class="core-center">
+                    <svg class="hud-svg" viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="40" stroke="rgba(0, 238, 255, 0.2)" stroke-width="1" fill="none" />
+                        <path d="M 50 10 A 40 40 0 0 1 90 50" stroke="#00eeff" stroke-width="2" fill="none" class="hud-path-rotate" />
+                    </svg>
+                </div>
+                <span class="core-status-text">CORE ACTIVE</span>
+            </div>
+        </main>
+
+        <footer class="taskbar">
+            <button class="start-menu-btn" id="start-btn">⚡ AMIRMA</button>
+            <div class="active-apps-tray" id="taskbar-apps"></div>
+            <div class="voice-trigger-wrapper">
+                <button class="voice-btn" id="voice-toggle-btn" title="Toggle Voice Recognition">
+                    <span class="voice-mic-icon">🎤</span>
+                </button>
+            </div>
+        </footer>
+
+        <div id="start-menu" class="start-menu hidden">
+            <div class="start-header">EXECUTIVE CMD</div>
+            <div class="start-grid">
+                <div class="start-item" onclick="openApp('mission-control')">🎯 Mission Control</div>
+                <div class="start-item" onclick="openApp('chat-center')">🧠 Chat Center</div>
+                <div class="start-item" onclick="openApp('employee-center')">💼 Workforce</div>
+                <div class="start-item" onclick="openApp('sys-monitor')">📊 Monitor</div>
+                <div class="start-item" onclick="openApp('weather-hub')">🌤️ Weather</div>
+                <div class="start-item" onclick="openApp('settings-panel')">⚙️ Settings</div>
+            </div>
         </div>
-      </div>
-
-      <div class="card">
-        <h3>SYSTEM MONITOR</h3>
-        <p>CPU <span id="cpu">0%</span></p>
-        <p>RAM <span id="ram">0%</span></p>
-        <p>Storage <span id="storage">0%</span></p>
-        <p>Network <span id="network">0%</span></p>
-      </div>
-
-      <div class="card">
-        <h3>AI AGENTS</h3>
-        <ul>
-          <li>Research Agent - Active</li>
-          <li>Content Agent - Standby</li>
-          <li>Productivity Agent - Active</li>
-          <li>Automation Agent - Active</li>
-          <li>Learning Agent - Online</li>
-        </ul>
-      </div>
-
-    </section>
-
-    <!-- CENTER AI CORE -->
-    <section class="center">
-
-      <div class="ai-core">
-        <div class="ring ring1"></div>
-        <div class="ring ring2"></div>
-        <div class="ring ring3"></div>
-        <div class="core-glow"></div>
-      </div>
-
-      <div class="voice-controls">
-        <button onclick="startVoice()">🎤 Activate Voice</button>
-        <button onclick="stopVoice()">⛔ Stop Voice</button>
-      </div>
-
-    </section>
-
-    <!-- RIGHT PANEL -->
-    <section class="panel">
-
-      <div class="card">
-        <h3>WEATHER</h3>
-        <p id="weather">Loading weather...</p>
-      </div>
-
-      <div class="card">
-        <h3>APPLICATIONS</h3>
-        <div class="apps">
-          <button onclick="openApp('https://google.com')">Google</button>
-          <button onclick="openApp('https://youtube.com')">YouTube</button>
-          <button onclick="openApp('https://chat.openai.com')">ChatGPT</button>
-          <button onclick="openApp('https://github.com')">GitHub</button>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>AI CHAT</h3>
-        <div id="chatBox"></div>
-        <div class="chat-input">
-          <input id="userInput" placeholder="Type command..." />
-          <button onclick="sendMessage()">Send</button>
-        </div>
-      </div>
-
-    </section>
-
-  </main>
-</div>
-
-<script src="script.js"></script>
+    </div>
 </body>
 </html>
