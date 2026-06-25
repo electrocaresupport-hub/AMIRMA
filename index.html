@@ -3,89 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AMIRMA | ULTIMATE EDITION</title>
+    <title>AMIRMA OS v1.0 - AI Terminal</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Font Awesome for sleek modern UI icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body>
-    <canvas id="particle-canvas"></canvas>
-
-    <div id="boot-screen" class="boot-screen">
-        <div class="boot-loader">
-            <h1 class="glow-text">AMIRMA</h1>
-            <div class="boot-terminal" id="boot-terminal"></div>
-            <div class="boot-progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
-        </div>
-    </div>
-
-    <div id="desktop-env" class="desktop-env hidden">
-        <header class="top-bar">
-            <div class="system-status-left">
-                <span class="status-node pulse-glow"></span>
-                <span class="brand-title">AMIRMA // CORE v1.0</span>
-            </div>
-            <div class="system-status-right">
-                <span id="sys-date">--/--/----</span>
-                <span id="sys-time">00:00:00</span>
-            </div>
+<body class="dark-theme">
+    <div class="app-container">
+        
+        <!-- Mobile Header Toggle Bar -->
+        <header class="mobile-navbar">
+            <button id="mobile-sidebar-toggle" aria-label="Toggle Sidebar"><i class="fa-solid fa-bars"></i></button>
+            <div class="logo-text">AMIRMA <span class="cyan-glow">OS</span></div>
+            <button id="mobile-settings-toggle" aria-label="Toggle Settings"><i class="fa-solid fa-gear"></i></button>
         </header>
 
-        <main class="desktop-surface">
-            <div class="desktop-shortcuts">
-                <button class="shortcut-btn" onclick="openApp('mission-control')">
-                    <div class="shortcut-icon">🎯</div>
-                    <span class="shortcut-label">Mission Control</span>
-                </button>
-                <button class="shortcut-btn" onclick="openApp('chat-center')">
-                    <div class="shortcut-icon">🧠</div>
-                    <span class="shortcut-label">AI Chat Center</span>
-                </button>
-                <button class="shortcut-btn" onclick="openApp('employee-center')">
-                    <div class="shortcut-icon">💼</div>
-                    <span class="shortcut-label">AI Workforce</span>
-                </button>
-                <button class="shortcut-btn" onclick="openApp('sys-monitor')">
-                    <div class="shortcut-icon">📊</div>
-                    <span class="shortcut-label">System Monitor</span>
-                </button>
-            </div>
-
-            <div id="window-container"></div>
-
-            <div class="ai-core-container" id="ai-core-trigger">
-                <div class="hologram-ring ring-outer"></div>
-                <div class="hologram-ring ring-mid"></div>
-                <div class="hologram-ring ring-inner"></div>
-                <div class="core-center">
-                    <svg class="hud-svg" viewBox="0 0 100 100">
-                        <circle cx="50" cy="50" r="40" stroke="rgba(0, 238, 255, 0.2)" stroke-width="1" fill="none" />
-                        <path d="M 50 10 A 40 40 0 0 1 90 50" stroke="#00eeff" stroke-width="2" fill="none" class="hud-path-rotate" />
-                    </svg>
+        <!-- Sidebar Panel Container -->
+        <aside class="sidebar" id="app-sidebar">
+            <div class="sidebar-header">
+                <div class="brand">
+                    <i class="fa-solid fa-microchip network-icon animate-pulse"></i>
+                    <span>AMIRMA <span class="version-tag">v1.0</span></span>
                 </div>
-                <span class="core-status-text">CORE ACTIVE</span>
-            </div>
-        </main>
-
-        <footer class="taskbar">
-            <button class="start-menu-btn" id="start-btn">⚡ AMIRMA</button>
-            <div class="active-apps-tray" id="taskbar-apps"></div>
-            <div class="voice-trigger-wrapper">
-                <button class="voice-btn" id="voice-toggle-btn" title="Toggle Voice Recognition">
-                    <span class="voice-mic-icon">🎤</span>
+                <button id="new-chat-btn" class="btn btn-primary">
+                    <i class="fa-solid fa-plus"></i> New Objective
                 </button>
             </div>
-        </footer>
 
-        <div id="start-menu" class="start-menu hidden">
-            <div class="start-header">EXECUTIVE CMD</div>
-            <div class="start-grid">
-                <div class="start-item" onclick="openApp('mission-control')">🎯 Mission Control</div>
-                <div class="start-item" onclick="openApp('chat-center')">🧠 Chat Center</div>
-                <div class="start-item" onclick="openApp('employee-center')">💼 Workforce</div>
-                <div class="start-item" onclick="openApp('sys-monitor')">📊 Monitor</div>
-                <div class="start-item" onclick="openApp('weather-hub')">🌤️ Weather</div>
-                <div class="start-item" onclick="openApp('settings-panel')">⚙️ Settings</div>
+            <!-- Chat History Interactive List -->
+            <div class="history-panel">
+                <div class="panel-label">OPERATIONAL LOGS</div>
+                <div class="history-list" id="chat-history-container">
+                    <!-- History nodes rendered dynamically -->
+                </div>
             </div>
-        </div>
+
+            <!-- Profile & System Trigger Footer Section -->
+            <div class="sidebar-footer">
+                <button id="settings-trigger" class="footer-action-btn">
+                    <i class="fa-solid fa-sliders"></i> System Settings
+                </button>
+                <div class="user-profile">
+                    <div class="avatar">OP</div>
+                    <div class="user-info">
+                        <div class="username">Operator Main</div>
+                        <div class="status-indicator"><span class="dot online"></span> Secure Node</div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Core Console Layout -->
+        <main class="main-content">
+            
+            <!-- Chat Interactive View Screen -->
+            <section id="chat-view" class="view-panel active">
+                <div class="chat-container" id="chat-messages-box">
+                    <!-- Default System Welcome Node -->
+                    <div class="message system-msg">
+                        <div class="message-wrapper">
+                            <div class="message-avatar"><i class="fa-solid fa-shield-halved"></i></div>
+                            <div class="message-body">
+                                <p class="glow-text font-mono">AMIRMA online. Systems operational. Ready to assist with learning, research, coding, content creation, AI development, productivity, technology, business, creativity, and project execution. What is our objective today?</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Core Command Entry System -->
+                <div class="input-area">
+                    <div class="input-container-wrapper">
+                        <textarea id="chat-input-field" rows="1" placeholder="Provide strategic intent or prompt AMIRMA..."></textarea>
+                        <button id="send-command-btn" class="send-btn" disabled>
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                    </div>
+                    <div class="input-footer-note">AMIRMA AI Architecture Engine level-1 workflow.</div>
+                </div>
+            </section>
+
+            <!-- Configuration & System Overlay Settings Panel -->
+            <section id="settings-view" class="view-panel">
+                <div class="settings-card">
+                    <div class="settings-header">
+                        <h2><i class="fa-solid fa-gears cyan-glow"></i> AMIRMA System Parameters</h2>
+                        <button id="close-settings" class="icon-close-btn"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                    
+                    <div class="settings-body">
+                        <div class="setting-group">
+                            <label>Interface Workspace Profile</label>
+                            <div class="toggle-container">
+                                <span>Cyberpunk Blue Dark Mode (Default)</span>
+                                <input type="checkbox" id="theme-toggle" checked disabled>
+                            </div>
+                        </div>
+
+                        <div class="setting-group">
+                            <label for="system-persona">System Prompt Operational Persona</label>
+                            <textarea id="system-persona" readonly class="code-font-textarea">
+You are AMIRMA (Advanced Multidisciplinary Intelligent Resource Management Assistant), my personal AI Operating System. Optimize for real-world results, think step-by-step, save time, provide practical solutions using free tools where possible, and format using structural GOAL, ANALYSIS, PLAN, ACTION STEPS, TOOLS, NEXT STEP layouts.</textarea>
+                        </div>
+
+                        <div class="setting-group">
+                            <label>System Integrity Check</label>
+                            <div class="diagnostic-grid">
+                                <div class="diag-item"><span class="label">Response Mode:</span> <span class="val text-cyan">Deterministic</span></div>
+                                <div class="diag-item"><span class="label">Latency Engine:</span> <span class="val text-emerald">0.02ms (Simulated)</span></div>
+                                <div class="diag-item"><span class="label">Context Allocation:</span> <span class="val text-cyan">128k Layer-1</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
     </div>
+    <script src="script.js"></script>
 </body>
 </html>
