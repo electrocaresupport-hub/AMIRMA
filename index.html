@@ -3,45 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AMIRMA OS v1.0 - AI Terminal</title>
+    <title>AMIRMA AI OS v2.0</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Font Awesome for sleek modern UI icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="dark-theme">
     <div class="app-container">
         
-        <!-- Mobile Header Toggle Bar -->
         <header class="mobile-navbar">
-            <button id="mobile-sidebar-toggle" aria-label="Toggle Sidebar"><i class="fa-solid fa-bars"></i></button>
-            <div class="logo-text">AMIRMA <span class="cyan-glow">OS</span></div>
-            <button id="mobile-settings-toggle" aria-label="Toggle Settings"><i class="fa-solid fa-gear"></i></button>
+            <button id="mobile-sidebar-toggle"><i class="fa-solid fa-bars"></i></button>
+            <div class="logo-text">AMIRMA <span class="cyan-glow">OS v2.0</span></div>
+            <button id="mobile-tracker-toggle"><i class="fa-solid fa-chart-line"></i></button>
         </header>
 
-        <!-- Sidebar Panel Container -->
         <aside class="sidebar" id="app-sidebar">
             <div class="sidebar-header">
                 <div class="brand">
-                    <i class="fa-solid fa-microchip network-icon animate-pulse"></i>
-                    <span>AMIRMA <span class="version-tag">v1.0</span></span>
+                    <i class="fa-solid fa-circle-nodes network-icon animate-pulse"></i>
+                    <span>AMIRMA <span class="version-tag">v2.0 PRO</span></span>
                 </div>
                 <button id="new-chat-btn" class="btn btn-primary">
-                    <i class="fa-solid fa-plus"></i> New Objective
+                    <i class="fa-solid fa-plus"></i> New Operational Run
                 </button>
             </div>
 
-            <!-- Chat History Interactive List -->
-            <div class="history-panel">
-                <div class="panel-label">OPERATIONAL LOGS</div>
-                <div class="history-list" id="chat-history-container">
-                    <!-- History nodes rendered dynamically -->
-                </div>
+            <div class="mode-selector-panel">
+                <div class="panel-label">SYSTEM WORKSPACE MODE</div>
+                <select id="system-mode-select" class="styled-select">
+                    <option value="GENERAL" selected>🌐 General Assistant Core</option>
+                    <option value="CONTENT">🎬 Content Creation Mode</option>
+                    <option value="AI_CREATOR">🤖 AI Creator Logic Engine</option>
+                    <option value="LEARNING">🎓 Learning Matrix Engine</option>
+                    <option value="RESEARCH">🔬 Deep Research Analyst</option>
+                </select>
             </div>
 
-            <!-- Profile & System Trigger Footer Section -->
+            <div class="history-panel">
+                <div class="panel-label">OPERATIONAL RUN HISTORY</div>
+                <div class="history-list" id="chat-history-container"></div>
+            </div>
+
             <div class="sidebar-footer">
                 <button id="settings-trigger" class="footer-action-btn">
-                    <i class="fa-solid fa-sliders"></i> System Settings
+                    <i class="fa-solid fa-sliders"></i> Core OS Parameters
                 </button>
                 <div class="user-profile">
                     <div class="avatar">OP</div>
@@ -53,71 +57,93 @@
             </div>
         </aside>
 
-        <!-- Main Core Console Layout -->
         <main class="main-content">
             
-            <!-- Chat Interactive View Screen -->
             <section id="chat-view" class="view-panel active">
                 <div class="chat-container" id="chat-messages-box">
-                    <!-- Default System Welcome Node -->
-                    <div class="message system-msg">
-                        <div class="message-wrapper">
-                            <div class="message-avatar"><i class="fa-solid fa-shield-halved"></i></div>
-                            <div class="message-body">
-                                <p class="glow-text font-mono">AMIRMA online. Systems operational. Ready to assist with learning, research, coding, content creation, AI development, productivity, technology, business, creativity, and project execution. What is our objective today?</p>
-                            </div>
-                        </div>
                     </div>
-                </div>
 
-                <!-- Core Command Entry System -->
                 <div class="input-area">
+                    <div id="file-preview-strip" class="file-preview-strip hidden"></div>
+                    
                     <div class="input-container-wrapper">
-                        <textarea id="chat-input-field" rows="1" placeholder="Provide strategic intent or prompt AMIRMA..."></textarea>
+                        <button id="file-upload-trigger" class="input-action-icon-btn" title="Inject Data Payload">
+                            <i class="fa-solid fa-paperclip"></i>
+                        </button>
+                        <input type="file" id="hidden-file-input" class="hidden" multiple>
+                        
+                        <textarea id="chat-input-field" rows="1" placeholder="Provide strategic intent or prompt AMIRMA OS..."></textarea>
+                        
                         <button id="send-command-btn" class="send-btn" disabled>
-                            <i class="fa-solid fa-paper-plane"></i>
+                            <i class="fa-solid fa-circle-arrow-up"></i>
                         </button>
                     </div>
-                    <div class="input-footer-note">AMIRMA AI Architecture Engine level-1 workflow.</div>
+                    <div class="input-footer-note">AMIRMA Layer-2 Execution Module. Secured Sandbox.</div>
                 </div>
             </section>
 
-            <!-- Configuration & System Overlay Settings Panel -->
             <section id="settings-view" class="view-panel">
                 <div class="settings-card">
                     <div class="settings-header">
-                        <h2><i class="fa-solid fa-gears cyan-glow"></i> AMIRMA System Parameters</h2>
+                        <h2><i class="fa-solid fa-gears cyan-glow"></i> Encryption & Model Core Settings</h2>
                         <button id="close-settings" class="icon-close-btn"><i class="fa-solid fa-xmark"></i></button>
                     </div>
                     
                     <div class="settings-body">
                         <div class="setting-group">
-                            <label>Interface Workspace Profile</label>
-                            <div class="toggle-container">
-                                <span>Cyberpunk Blue Dark Mode (Default)</span>
-                                <input type="checkbox" id="theme-toggle" checked disabled>
+                            <label for="api-key-input">Google Gemini API Authentication Token</label>
+                            <div class="input-with-button">
+                                <input type="password" id="api-key-input" placeholder="AIzaSy..." class="styled-input">
+                                <button id="save-api-key-btn" class="btn btn-secondary">Save Token</button>
+                            </div>
+                            <span class="input-hint-text text-cyan">Stored safely inside localized memory space (`localStorage`).</span>
+                        </div>
+
+                        <div class="setting-group">
+                            <label>Context Actions & Portability</label>
+                            <div class="button-row">
+                                <button id="export-history-btn" class="btn btn-secondary"><i class="fa-solid fa-download"></i> Export Conversation Log</button>
+                                <button id="clear-memory-btn" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i> Flush Memory Matrix</button>
                             </div>
                         </div>
 
                         <div class="setting-group">
-                            <label for="system-persona">System Prompt Operational Persona</label>
-                            <textarea id="system-persona" readonly class="code-font-textarea">
-You are AMIRMA (Advanced Multidisciplinary Intelligent Resource Management Assistant), my personal AI Operating System. Optimize for real-world results, think step-by-step, save time, provide practical solutions using free tools where possible, and format using structural GOAL, ANALYSIS, PLAN, ACTION STEPS, TOOLS, NEXT STEP layouts.</textarea>
-                        </div>
-
-                        <div class="setting-group">
-                            <label>System Integrity Check</label>
-                            <div class="diagnostic-grid">
-                                <div class="diag-item"><span class="label">Response Mode:</span> <span class="val text-cyan">Deterministic</span></div>
-                                <div class="diag-item"><span class="label">Latency Engine:</span> <span class="val text-emerald">0.02ms (Simulated)</span></div>
-                                <div class="diag-item"><span class="label">Context Allocation:</span> <span class="val text-cyan">128k Layer-1</span></div>
-                            </div>
+                            <label for="system-persona">Global Active Base Matrix Prompt</label>
+                            <textarea id="system-persona" readonly class="code-font-textarea"></textarea>
                         </div>
                     </div>
                 </div>
             </section>
-
         </main>
+
+        <aside class="metrics-panel" id="app-metrics-panel">
+            <div class="metrics-header">
+                <h3><i class="fa-solid fa-chart-bar cyan-glow"></i> Tracking Core</h3>
+            </div>
+            
+            <div class="metric-section">
+                <div class="panel-label">ACTIVE OBJECTIVES / GOALS</div>
+                <div class="goal-container">
+                    <div class="input-container-wrapper compact">
+                        <input type="text" id="new-goal-input" placeholder="New objective target...">
+                        <button id="add-goal-btn"><i class="fa-solid fa-plus"></i></button>
+                    </div>
+                    <ul class="tracking-list" id="goals-list-container"></ul>
+                </div>
+            </div>
+
+            <div class="metric-section">
+                <div class="panel-label">PROJECT COMPLIANCE MATRIX</div>
+                <div class="project-container">
+                    <div class="input-container-wrapper compact">
+                        <input type="text" id="new-project-input" placeholder="Project name blueprint...">
+                        <button id="add-project-btn"><i class="fa-solid fa-folder-plus"></i></button>
+                    </div>
+                    <div class="project-matrix-stack" id="projects-matrix-container"></div>
+                </div>
+            </div>
+        </aside>
+
     </div>
     <script src="script.js"></script>
 </body>
